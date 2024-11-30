@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
-
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { Link } from "react-router";
 const AddCoffee = () => {
   const formHandler = (e) => {
     e.preventDefault();
@@ -48,7 +49,10 @@ const AddCoffee = () => {
     })
   };
   return (
-    <div className="bg-base-200 py-8">
+    <div className="bg-base-200 py-8 md:px-20">
+      <Link to="/">
+      <button className="flex items-center"> <IoIosArrowRoundBack /> <span style={{ textShadow: '2px 2px 4px #331A15' }}>Back to Home</span></button>
+      </Link>
       <h1 className="text-center text-3xl font-semibold my-8">
         Add New Coffee
       </h1>
@@ -152,7 +156,7 @@ const AddCoffee = () => {
             required
           />
         </label>
-        <button className="btn col-span-2 bg-stone-400 text-lg mt-4">
+        <button className="btn col-span-2 bg-[#E3B577] hover:bg-[#c18f4e] text-lg mt-4">
           Add Coffee
         </button>
       </form>

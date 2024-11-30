@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { Link, useParams } from "react-router";
 import Swal from "sweetalert2";
 
 const UpdateCoffee = () => {
@@ -58,7 +59,10 @@ const UpdateCoffee = () => {
         })
     }
     return (
-        <div className="bg-base-200 py-8">
+        <div className="bg-base-200 py-8 md:px-20">
+      <Link to="/">
+      <button className="flex items-center"> <IoIosArrowRoundBack /> <span style={{ textShadow: '2px 2px 4px #331A15' }}>Back to Home</span></button>
+      </Link>
         <h1 className="text-center text-3xl font-semibold my-8">
           Update Existing Coffee Details
         </h1>
@@ -162,7 +166,7 @@ const UpdateCoffee = () => {
               defaultValue={item.photo}
             />
           </label>
-          <button className="btn col-span-2 bg-stone-400 text-lg mt-4">
+          <button className="btn col-span-2 bg-[#E3B577] hover:bg-[#c18f4e] text-lg mt-4">
             Update Coffee
           </button>
         </form>
