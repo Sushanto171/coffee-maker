@@ -4,9 +4,9 @@ import Navbar from "./Navbar";
 
 const MainlayOut = () => {
     return (
-        <div>
+        <div className="font-Rancho">
             <Navbar />
-            <div className="w-10/12 mx-auto">
+            <div className="">
             <Outlet />
             </div>
             <Footer />

@@ -44,7 +44,8 @@ const AddCoffee = () => {
           `
         }
       })) 
-      console.log(data)})
+      form.reset();
+    })
   };
   return (
     <div className="bg-base-200 py-8">
