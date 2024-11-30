@@ -1,23 +1,44 @@
 import { Link } from "react-router";
+import Swal from "sweetalert2";
+import 'animate.css';
 
 const CoffeeCard = ({coffee, setCoffees, coffees}) => {
-    console.log(coffee)
 
     const deleteHandler = (id)=>{
-        fetch(`http://localhost:3000/deleteCoffee/${id}`, {
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`http://localhost:3000/deleteCoffee/${id}`, {
             method: "DELETE"
         })
         .then(res => res.json())
         .then(data => {
             const remaining = coffees.filter(item => item._id !== coffee._id)
             setCoffees(remaining)
-            console.log(data)})
+          data.deletedCount > 0 && ( Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            }));
+          })
+    
+        }
+      });    
+   
     }
   return (
     <div>
-      <div className="card card-side bg-base-100 shadow-xl">
-        <figure className="p-8">
-          <img className="max-h-64 rounded-lg"
+      <div className="card card-side bg-base-100 shadow-xl h-full">
+        <figure className="p-2">
+          <img className=""
             src={coffee.photo}
             alt="Movie"
           />
@@ -30,7 +51,9 @@ const CoffeeCard = ({coffee, setCoffees, coffees}) => {
           </div>
           <div className="card-actions justify-end">
             <div className="join join-vertical space-y-2 mt-8" >
+              <Link to={`/coffeeDetails/${coffee._id}`} >
               <button className="btn join-item">👁</button>
+              </Link>
               <Link to={`/updateCoffee/${coffee._id}`} >
               <button className="btn join-item bg-black/70">📝</button>
               </Link>

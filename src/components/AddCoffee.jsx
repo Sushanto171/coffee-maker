@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const AddCoffee = () => {
   const formHandler = (e) => {
     e.preventDefault();
@@ -20,7 +22,29 @@ const AddCoffee = () => {
         },
         body: JSON.stringify(coffee)
     }).then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+      
+     data.insertedId && ( Swal.fire({
+        title: 'successfully added coffee!',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 2000,
+        showClass: {
+          popup: `
+            animate__animated
+            animate__fadeInUp
+            animate__faster
+          `
+        },
+        hideClass: {
+          popup: `
+            animate__animated
+            animate__fadeOutDown
+            animate__faster
+          `
+        }
+      })) 
+      console.log(data)})
   };
   return (
     <div className="bg-base-200 py-8">
