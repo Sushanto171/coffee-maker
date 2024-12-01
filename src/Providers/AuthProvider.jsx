@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, deleteUser, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { createContext } from 'react';
 import auth from './../firebaseInit/firebase.init';
@@ -46,6 +46,10 @@ const [titles , setTitle] = useState("Coffee Maker");
             // setUser(null)
         })
         .catch(error => console.log(error))
+    };
+
+    const userDelete =()=>{
+       return deleteUser(auth.currentUser)
     }
     const userInfo = {
         createUser,
@@ -56,7 +60,8 @@ const [titles , setTitle] = useState("Coffee Maker");
         loading , 
         setLoading,
         setTitle,
-        signOutUser
+        signOutUser,
+        userDelete
     }
     return (
         <AuthContext.Provider value={userInfo}>

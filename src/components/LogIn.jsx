@@ -16,15 +16,26 @@ const LogIn = () => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
-        const data = {email, password}
-        console.log(data)
-
         signIn(email, password)
         .then(res => {
             console.log(res.user)
-            e.target.reset();
-            successAlert("in");
-            navigate("/")
+            const lastSignInTime = res?.user?.metadata?.lastSignInTime;
+            const loginIf = {email, lastSignInTime};
+            fetch("https://espresso-emporium-sever.vercel.app/users", {
+                method: "PATCH",
+                headers:{
+                    "content-type" : "application/json"
+                },
+                body: JSON.stringify(loginIf),
+            }).then(res=> res.json())
+            .then(data => {
+                e.target.reset();
+                successAlert("in");
+                navigate("/")
+                console.log(data)
+            }).catch(error =>{
+                console.log(error)
+            })
         })
         .catch(error => {
             console.log("ERROR" ,error)
@@ -34,10 +45,47 @@ const LogIn = () => {
     const googleBtnHandler = ()=>{
         logInViaGoogle()
         .then(res => {
-            console.log(res.user)
-            successAlert("in");
-            navigate("/")
-        })
+            const name = res?.user?.displayName;
+            const email = res?.user?.email;
+            const userAt = res?.user?.metadata?.creationTime;
+            const userData = {name, email, userAt}
+            fetch(`https://espresso-emporium-sever.vercel.app/user/via-email/${email}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data){
+                        const lastSignInTime = res?.user?.metadata?.lastSignInTime;
+                        const loginIf = {email, lastSignInTime};
+                        fetch("https://espresso-emporium-sever.vercel.app/users", {
+                            method: "PATCH",
+                            headers:{
+                                "content-type" : "application/json"
+                            },
+                            body: JSON.stringify(loginIf),
+                        }).then(res=> res.json())
+                        .then(() => {
+                            successAlert("in");
+                            navigate("/")
+                        }).catch(error =>{
+                            console.log(error)
+                        })
+                }
+                else{              
+                   return fetch('https://espresso-emporium-sever.vercel.app/users', {
+                        method: "POST",
+                        headers:{
+                            "content-type" : "application/json"
+                        },
+                        body: JSON.stringify(userData)
+                    })
+                    .then(res =>{
+                        if(res){
+                            successAlert("in");
+                            navigate("/");
+                        }
+                    })
+                }
+            })
+        }) 
         .catch(error => {
             console.log("ERROR" , error)
         })

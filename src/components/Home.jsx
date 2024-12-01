@@ -14,7 +14,7 @@ const {setTitle} = useContext(AuthContext)
 },[])
   const [coffees, setCoffees] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/coffees")
+    fetch("https://espresso-emporium-sever.vercel.app/coffees")
       .then((res) => res.json())
       .then((data) => setCoffees(data));
   }, []);

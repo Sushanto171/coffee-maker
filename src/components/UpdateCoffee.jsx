@@ -7,7 +7,7 @@ const UpdateCoffee = () => {
     const {id} = useParams();
     const [item , setItem] = useState({});
     useEffect(()=>{
-        fetch(`http://localhost:3000/coffees/${id}`)
+        fetch(`https://espresso-emporium-sever.vercel.app/coffees/${id}`)
         .then(res => res.json())
         .then(data =>setItem(data))
     },[])
@@ -25,7 +25,7 @@ const UpdateCoffee = () => {
         const coffee = { name, chief, supplier, taste, category, details, photo, price };
 
 
-        fetch(`http://localhost:3000/updateCoffee/${id}`,{
+        fetch(`https://espresso-emporium-sever.vercel.app/updateCoffee/${id}`,{
             method: "PUT",
             headers:{
                 "content-type" : "application/json"

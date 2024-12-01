@@ -5,7 +5,7 @@ const Details = () => {
     const {id} = useParams();
     console.log(id)
     useEffect(()=>{
-        fetch(`http://localhost:3000/coffees/${id}`)
+        fetch(`https://espresso-emporium-sever.vercel.app/coffees/${id}`)
         .then(res => res.json())
         .then(data=> console.log(data))
     },[])

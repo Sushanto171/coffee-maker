@@ -24,9 +24,9 @@ const SignUp = () => {
         // create user
         createUser(email, password)
         .then((res) => {
-            const userAt = res.user.metadata.creationTime;
+            const userAt = res?.user?.metadata?.creationTime;
             const data = {email,  name, userAt}
-            fetch("http://localhost:3000/users",{
+            fetch("https://espresso-emporium-sever.vercel.app/users",{
                 method: "POST",
                 headers: {
                     "content-type" : "application/json"
@@ -49,10 +49,24 @@ const SignUp = () => {
 
     const googleBtnHandler = ()=>{
         logInViaGoogle()
-        .then(() =>{
-    
-            successAlert('in');
-            navigate("/");
+        .then((res) =>{
+            const name = res?.user?.displayName;
+            const email = res?.user?.email;
+            const userAt = res?.user?.metadata?.creationTime;
+            const data = {name, email, userAt}
+            fetch('https://espresso-emporium-sever.vercel.app/users', {
+                method: "POST",
+                headers:{
+                    "content-type" : "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res =>{
+                if(res){
+                    successAlert("in");
+                    navigate("/");
+                }
+            })
         })
         .catch(error=> {
             console.log("ERROR", error)

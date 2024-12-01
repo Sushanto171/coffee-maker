@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
        backgroundImage: {
-        "nav-bg" : "url(./src/assets/images/more/15.jpg)",
-        "banner-bg" : "url(./src/assets/images/more/3.png)"
+        "nav-bg" : "url(assets/images/more/15.jpg)",
+        "banner-bg" : "url(assets/images/more/3.png)"
        },
       fontFamily: {
         "Rancho" : ["Rancho", "cursive"]
