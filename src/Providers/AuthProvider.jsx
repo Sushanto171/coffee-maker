@@ -1,12 +1,14 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { createContext } from 'react';
 import auth from './../firebaseInit/firebase.init';
+import { successAlert } from '../components/SuccessAlert';
     export const AuthContext = createContext();
+
 const AuthProvider = ({children}) => {
 const [user, setUser] = useState(null);
 const [loading , setLoading] = useState(true);
-
+const [titles , setTitle] = useState("Coffee Maker");
     const googleProvider = new GoogleAuthProvider();
 
 
@@ -15,13 +17,16 @@ const [loading , setLoading] = useState(true);
         if(user){
             setUser(user)
         }
+        else{
+            setUser(null)
+        }
         setLoading(false);
         }) 
         return ()=>{
             unSubscribe()
         }
-    },[])
-    console.log(user)
+    },[]);
+  document.title = titles + " | Coffee Maker";
     const createUser = (email, password)=>{
      return   createUserWithEmailAndPassword(auth, email ,password)
     };
@@ -32,6 +37,15 @@ const [loading , setLoading] = useState(true);
 
     const signIn = (email, password)=>{
         return signInWithEmailAndPassword(auth, email, password)
+    };
+
+    const signOutUser = ()=>{
+        signOut(auth)
+        .then(()=>{
+            successAlert("out")
+            // setUser(null)
+        })
+        .catch(error => console.log(error))
     }
     const userInfo = {
         createUser,
@@ -40,7 +54,9 @@ const [loading , setLoading] = useState(true);
         logInViaGoogle,
         signIn,
         loading , 
-        setLoading
+        setLoading,
+        setTitle,
+        signOutUser
     }
     return (
         <AuthContext.Provider value={userInfo}>

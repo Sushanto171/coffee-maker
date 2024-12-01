@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CoffeeCard from "./CoffeeCard";
 import { Link } from "react-router";
 import Banner from "./Banner";
 import Badge from "./Badge";
 import cup from "./../assets/images/cups/Vector.png"
 import FollowUs from "./FollowUs";
+import { AuthContext } from "../Providers/AuthProvider";
 
 const Home = () => {
+const {setTitle} = useContext(AuthContext)
+  useEffect(()=>{
+    setTitle ("Home")
+},[])
   const [coffees, setCoffees] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3000/coffees")

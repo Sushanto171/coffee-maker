@@ -1,27 +1,46 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FaFacebook, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import  { AuthContext } from "../Providers/AuthProvider";
+import { successAlert } from "./SuccessAlert";
 
 const SignUp = () => {
 
-    const {createUser, logInViaGoogle, setUser} = useContext(AuthContext)
+    const {createUser, logInViaGoogle,setTitle} = useContext(AuthContext)
+    const navigate = useNavigate();
 
-
+  useEffect(()=>{
+    setTitle ("Sign up")
+},[])
 
     const signUpHandler = (e)=>{
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
         const name = e.target.name.value;
-        const data = {email, password, name}
-        console.log(data)
-
+        
+        
         // create user
         createUser(email, password)
-        .then(res => {
-            setUser(res.user)
+        .then((res) => {
+            const userAt = res.user.metadata.creationTime;
+            const data = {email,  name, userAt}
+            fetch("http://localhost:3000/users",{
+                method: "POST",
+                headers: {
+                    "content-type" : "application/json"
+                },
+                body: JSON.stringify(data),
+            }).then(res=>res.json())
+            .then(data => {
+                if(data.insertedId){
+                    e.target.reset();
+                    navigate("/")
+                    successAlert("up");
+                }
+            })
+            .catch(error => console.log(error))
         })
         .catch(error => {
             console.log("ERROR" , error)
@@ -30,13 +49,17 @@ const SignUp = () => {
 
     const googleBtnHandler = ()=>{
         logInViaGoogle()
-        .then(res =>{
-            console.log(res)
+        .then(() =>{
+    
+            successAlert('in');
+            navigate("/");
         })
         .catch(error=> {
             console.log("ERROR", error)
         })
     }
+
+
     return (
         <div className="flex flex-col justify-center items-center mt-20">
             <div className="card bg-[#ECEAE3]  w-full max-w-sm shrink-0 hover:shadow-2xl">

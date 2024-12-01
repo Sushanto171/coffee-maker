@@ -1,11 +1,17 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FaFacebook, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../Providers/AuthProvider";
+import { successAlert } from "./SuccessAlert";
 
 const LogIn = () => {
-    const {signIn, logInViaGoogle} = useContext(AuthContext);
+    const {signIn, logInViaGoogle, setTitle} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        setTitle ("Log in")
+    },[])
     const logInFormHandler = (e)=>{
         e.preventDefault();
         const email = e.target.email.value;
@@ -16,6 +22,9 @@ const LogIn = () => {
         signIn(email, password)
         .then(res => {
             console.log(res.user)
+            e.target.reset();
+            successAlert("in");
+            navigate("/")
         })
         .catch(error => {
             console.log("ERROR" ,error)
@@ -26,11 +35,15 @@ const LogIn = () => {
         logInViaGoogle()
         .then(res => {
             console.log(res.user)
+            successAlert("in");
+            navigate("/")
         })
         .catch(error => {
             console.log("ERROR" , error)
         })
     }
+
+
     return (
         <div className="flex flex-col justify-center items-center mt-20">
             <div className="card bg-[#ECEAE3]  w-full max-w-sm shrink-0 hover:shadow-2xl">

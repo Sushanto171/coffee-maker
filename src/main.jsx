@@ -10,6 +10,7 @@ import UpdateCoffee from "./components/UpdateCoffee.jsx";
 import Details from "./components/Details.jsx";
 import SignUp from "./components/SignUp.jsx";
 import AuthProvider from "./Providers/AuthProvider.jsx";
+import Users from "./components/Users.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/addCoffee" element={<AddCoffee />} />
             <Route path="/updateCoffee/:id" element={<UpdateCoffee />} />
             <Route path="/coffeeDetails/:id" element={<Details />} />
+            <Route path="/users" element={<Users />} />
           </Route>
         </Routes>
       </BrowserRouter>
