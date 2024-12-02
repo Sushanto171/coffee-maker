@@ -14,7 +14,7 @@ const Users = () => {
         .catch(error => console.log("ERROR", error))
     },[]);
 
-    const deleteHandler =(id)=>{
+    const deleteHandler =(id, email)=>{
         fetch(`https://espresso-emporium-sever.vercel.app/users`,{
             method: "DELETE",
             headers: {
@@ -24,12 +24,12 @@ const Users = () => {
         })
         .then(res => {
           if(res.status){
-            userDelete()
-            .then(()=>{
+        const result = userDelete(email)
+         if(result){
               const remain = users.filter(user =>user._id !== id );
               setUsers(remain);
               deleteAlert("User delete success");
-            })
+           }
           }
         }).catch(error => {
             console.log(error)
@@ -66,7 +66,7 @@ const Users = () => {
               <Link to={`/users/${user._id}`} >
                 <button className="btn btn-sm">Edit</button>
               </Link>
-                <button onClick={()=>deleteHandler(user._id)} className="btn btn-sm btn-error">X</button>
+                <button onClick={()=>deleteHandler(user._id, user.email)} className="btn btn-sm btn-error">X</button>
                 </td>
           </tr>
         )

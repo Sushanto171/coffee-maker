@@ -1,9 +1,9 @@
-import { createUserWithEmailAndPassword, deleteUser, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword,  GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { createContext } from 'react';
 import auth from './../firebaseInit/firebase.init';
 import { successAlert } from '../components/SuccessAlert';
-    export const AuthContext = createContext();
+ export const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
 const [user, setUser] = useState(null);
@@ -48,8 +48,18 @@ const [titles , setTitle] = useState("Coffee Maker");
         .catch(error => console.log(error))
     };
 
-    const userDelete =()=>{
-       return deleteUser(auth.currentUser)
+    const userDelete =async (email)=>{
+        let result = null
+      await  fetch("https://espresso-emporium-sever.vercel.app/addCoffee/delete-firebase-user", {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({email})
+        }).then(res=>  res.json())
+        .then(data => result = data )
+        console.log(result)
+        return result;
     }
     const userInfo = {
         createUser,
