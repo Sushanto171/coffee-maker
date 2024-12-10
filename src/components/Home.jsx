@@ -1,20 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import CoffeeCard from "./CoffeeCard";
 import { Link } from "react-router";
-import Banner from "./Banner";
-import Badge from "./Badge";
-import cup from "./../assets/images/cups/Vector.png"
-import FollowUs from "./FollowUs";
 import { AuthContext } from "../Providers/AuthProvider";
+import cup from "./../assets/images/cups/Vector.png";
+import Badge from "./Badge";
+import Banner from "./Banner";
+import CoffeeCard from "./CoffeeCard";
+import FollowUs from "./FollowUs";
 
 const Home = () => {
-const {setTitle} = useContext(AuthContext)
-  useEffect(()=>{
-    setTitle ("Home")
-},[])
+  const { setTitle } = useContext(AuthContext);
+  useEffect(() => {
+    setTitle("Home");
+  }, []);
   const [coffees, setCoffees] = useState([]);
   useEffect(() => {
-    fetch("https://espresso-emporium-sever.vercel.app/coffees")
+    fetch("http://localhost:3000/coffees")
       .then((res) => res.json())
       .then((data) => setCoffees(data));
   }, []);
@@ -33,8 +33,10 @@ const {setTitle} = useContext(AuthContext)
           Our Popular Products
         </h1>
         <Link to="/addCoffee">
-          <button className="btn text-white bg-[#E3B577] text-lg rounded-md border-black hover:bg-[#c18f4e]"
-          style={{ textShadow: '2px 2px 4px #331A15' }}>
+          <button
+            className="btn text-white bg-[#E3B577] text-lg rounded-md border-black hover:bg-[#c18f4e]"
+            style={{ textShadow: "2px 2px 4px #331A15" }}
+          >
             Add Coffee
             <img src={cup} alt="" />
           </button>

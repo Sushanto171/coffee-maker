@@ -1,6 +1,6 @@
-import Swal from "sweetalert2";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 const AddCoffee = () => {
   const formHandler = (e) => {
     e.preventDefault();
@@ -13,45 +13,61 @@ const AddCoffee = () => {
     const details = form.details.value;
     const photo = form.photo.value;
     const price = form.price.value;
-    const coffee = { name, chief, supplier, taste, category, details, photo, price };
+    const coffee = {
+      name,
+      chief,
+      supplier,
+      taste,
+      category,
+      details,
+      photo,
+      price,
+    };
     console.log(coffee);
 
-    fetch('https://espresso-emporium-sever.vercel.app/addCoffee', {
-        method: "POST",
-        headers: {
-            "content-type" : "application/json"
-        },
-        body: JSON.stringify(coffee)
-    }).then(res => res.json())
-    .then(data => {
-      
-     data.insertedId && ( Swal.fire({
-        title: 'successfully added coffee!',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 2000,
-        showClass: {
-          popup: `
+    fetch("http://localhost:3000/addCoffee", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(coffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data.insertedId &&
+          Swal.fire({
+            title: "successfully added coffee!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000,
+            showClass: {
+              popup: `
             animate__animated
             animate__fadeInUp
             animate__faster
-          `
-        },
-        hideClass: {
-          popup: `
+          `,
+            },
+            hideClass: {
+              popup: `
             animate__animated
             animate__fadeOutDown
             animate__faster
-          `
-        }
-      })) 
-      form.reset();
-    })
+          `,
+            },
+          });
+        form.reset();
+      });
   };
   return (
     <div className="bg-base-200 py-8 md:px-20">
       <Link to="/">
-      <button className="flex items-center"> <IoIosArrowRoundBack /> <span style={{ textShadow: '2px 2px 4px #331A15' }}>Back to Home</span></button>
+        <button className="flex items-center">
+          {" "}
+          <IoIosArrowRoundBack />{" "}
+          <span style={{ textShadow: "2px 2px 4px #331A15" }}>
+            Back to Home
+          </span>
+        </button>
       </Link>
       <h1 className="text-center text-3xl font-semibold my-8">
         Add New Coffee
